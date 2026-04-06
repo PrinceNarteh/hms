@@ -1,0 +1,12 @@
+{
+  "name": "hospital_management_system_backend",
+  "private": true,
+  "type": "module",
+  "module": "index.ts",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
