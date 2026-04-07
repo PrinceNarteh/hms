@@ -1,0 +1,55 @@
+services:
+  mongodb:
+    image: mongo:7-jammy
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${DB_NAME}
+    volumes:
+      - mongodb_data_dev:/data/db
+    networks:
+      - hms-network-dev
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "${APP_PORT}:5000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${APP_PORT}
+      MONGODB_URI: ${DB_URI} 
+    depends_on:
+      - mongodb
+    networks:
+      - hms-network-dev
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      VITE_API_URL: http://localhost:5000
+    depends_on:
+      - backend
+    networks:
+      - hms-network-dev
+
+volumes:
+  mongodb_data_dev:
+    name: hms-db-data-dev
+
+networks:
+  hms-network-dev:
+    driver: bridge
