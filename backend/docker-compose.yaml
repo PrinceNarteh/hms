@@ -1,0 +1,21 @@
+services:
+  mongodb:
+    image: mongo:7-jammy
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${DB_NAME}
+    volumes:
+      - mongodb_data_dev:/data/db
+    networks:
+      - hms-network-dev
+
+volumes:
+  mongodb_data_dev:
+    name: hms-db-data-dev
+
+networks:
+  hms-network-dev:
+    driver: bridge
