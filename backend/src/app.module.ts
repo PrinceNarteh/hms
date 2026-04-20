@@ -2,6 +2,7 @@ import { ConfigifyModule } from "@itgorillaz/configify";
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { MongoConfig } from "./config/mongo.config";
+import { AuthModule } from "@thallesp/nestjs-better-auth";
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { MongoConfig } from "./config/mongo.config";
         uri: config.dbUri,
       }),
     }),
+    AuthModule.forRootAsync({}),
   ],
   controllers: [],
   providers: [],

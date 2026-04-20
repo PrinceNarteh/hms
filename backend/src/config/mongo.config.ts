@@ -1,9 +1,10 @@
 import { Configuration, Value } from "@itgorillaz/configify";
-import { IsString } from "class-validator";
+import { IsDefined, IsNotEmpty, IsString } from "class-validator";
 
 @Configuration()
 export class MongoConfig {
-  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
   @Value("DB_NAME")
   dbName: string;
 
