@@ -1,7 +1,13 @@
 // Package repository
 package repository
 
-import "go.mongodb.org/mongo-driver/v2/mongo"
+import (
+	"errors"
+
+	"go.mongodb.org/mongo-driver/v2/mongo"
+)
+
+var ErrNotFound = errors.New("user not found")
 
 type Reposotory struct {
 	User UserRepository
