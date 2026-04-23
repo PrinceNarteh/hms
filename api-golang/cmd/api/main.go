@@ -6,6 +6,7 @@ import (
 	"hms-backend/internals/config"
 	"hms-backend/internals/db"
 	"hms-backend/internals/repository"
+	"hms-backend/internals/services"
 )
 
 func main() {
@@ -15,7 +16,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	repository.InitRespository(db)
+	// initialize repository
+	repo := repository.InitRespository(db)
+
+	// initialize services
+	services.InitServices(repo)
 
 	// initialize fiber app
 	app := initApp()

@@ -9,12 +9,12 @@ import (
 
 var ErrNotFound = errors.New("user not found")
 
-type Reposotory struct {
+type Repository struct {
 	User UserRepository
 }
 
-func InitRespository(db *mongo.Database) *Reposotory {
-	return &Reposotory{
+func InitRespository(db *mongo.Database) *Repository {
+	return &Repository{
 		User: &userRepository{coll: db.Collection("users")},
 	}
 }

@@ -6,6 +6,7 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
@@ -23,5 +24,19 @@ func (u User) Validate() error {
 		validation.Field(&u.FirstName, validation.Required, validation.Length(2, 50)),
 		validation.Field(&u.LastName, validation.Required, validation.Length(2, 50)),
 		validation.Field(&u.Email, validation.Required, is.Email),
+		validation.Field(&u.Password, validation.Required, validation.Length(6, 50)),
 	)
+}
+
+func (u *User) HashPassword() error {
+	hash, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	u.Password = string(hash)
+	return nil
+}
+
+func (u *User) CompareHashandPassword(password string) bool {
+	return bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password)) != nil
 }
