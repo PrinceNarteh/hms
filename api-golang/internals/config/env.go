@@ -26,7 +26,8 @@ func initConfig() *config {
 			URI:  getEnv("DB_URI", "mongodb://localhost:27017/hms-db"),
 		},
 		JwtConfig: &jwtConfig{
-			Secret: getEnv("JWT_SCRET", "secret_password"),
+			Secret:    getEnv("JWT_SECRET", "secret_password"),
+			ExpiresIn: getEnv("EXPIRES_IN", "10m"),
 		},
 	}
 }

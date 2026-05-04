@@ -18,5 +18,6 @@ type dbConfig struct {
 }
 
 type jwtConfig struct {
-	Secret string
+	Secret    string
+	ExpiresIn string
 }

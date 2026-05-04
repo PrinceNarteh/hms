@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"hms-backend/internals/models"
 	"hms-backend/internals/repository"
@@ -11,6 +12,7 @@ import (
 var _ AuthService = (*authService)(nil)
 
 type AuthService interface {
+	Login(context.Context, *models.LoginDTO) (*models.User, error)
 	Register(context.Context, *models.User) (*models.User, error)
 }
 
@@ -23,6 +25,7 @@ func (s *authService) Register(ctx context.Context, user *models.User) (*models.
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(userExists)
 
 	if userExists != nil {
 		return nil, errors.New(`user with email "%s" already exists`)
